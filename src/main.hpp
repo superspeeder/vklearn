@@ -6,32 +6,33 @@
 #include <GLFW/glfw3.h>
 
 
-class App {
+class App
+{
 public:
     App();
 
     ~App();
 
     void create_window();
-
     void create_instance();
-
     void select_gpu();
-
     void pick_queue_families();
-
     void create_surface();
-
     void create_device();
-
     void create_swapchain();
-
     void create_syncs();
-
     void create_command_pool();
+    vk::SurfaceFormatKHR select_surface_format();
+    vk::Extent2D select_extent(const vk::SurfaceCapabilitiesKHR& caps);
+    vk::PresentModeKHR select_present_mode();
+
+    void mainloop();
+
+    void pre_mainloop();
+    void render();
 
 private:
-    GLFWwindow *m_window;
+    GLFWwindow* m_window;
 
     vk::Instance m_instance;
     vk::PhysicalDevice m_physical_device;
@@ -48,7 +49,7 @@ private:
     std::vector<vk::Semaphore> m_render_finished_semaphores;
     std::vector<vk::Fence> m_in_flight_fences;
 
-    uint32_t m_current_frame;
+    uint32_t m_current_frame = 0;
 
     vk::CommandPool m_command_pool;
     std::vector<vk::CommandBuffer> m_render_command_buffers;
@@ -58,7 +59,6 @@ private:
 
     vk::Queue m_graphics_queue;
     vk::Queue m_present_queue;
-
 };
 
 constexpr uint32_t MAX_FRAMES_IN_FLIGHT = 2;
